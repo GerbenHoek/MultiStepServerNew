@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html>
+<html>
+<title>Polly</title>
+<head>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta charset="utf-8"/>
+
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-indigo.css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<link rel="stylesheet" href="./tutor.css">
+
+
+<script src="https://www.geogebra.org/apps/deployggb.js"></script>
+<style>
+</style>
+</head>
+<body onload="loadAll()">
+<div class = "sticky highz" style = "background-color: white;">
+   <h5>&nbsp;&nbsp;&nbsp;
+      <img src = "./media/logo.png" style="width:20px;height:25px;">
+   &nbsp;&nbsp;&nbsp;</h5>
+   <div class="header"></div>
+</div>
+<div style = "height:150px"></div>
+
+<div class = "center">
+<p><span id = "showID">ID:</span>
+      <input id="studentID" class="w3-input w3-border" style="width:250px"  type="text">
+<p><span id="group">Selecteer Groep:</span>&nbsp;
+   <button id="G0" class = "button shadow" onclick= "setGroup(0)">Groep 0</button> &nbsp;
+   <button id="G1" class = "button shadow" onclick= "setGroup(1)">Groep 1</button>
+   <div style = "height:50px"></div>   
+</div>
+
+<div id="main">
+<div id = "navButtons" class = "center">
+   <p><button class = "button shadow" onclick= "previousTask()">Vorige</button>
+   Huidige opdracht: <span id = "current">1/5</span>
+   <button class = "button shadow" onclick= "nextTask()">Volgende</button>
+</div>
+
+<div style = "height:50px"></div>
+
+<div id = "movie" class= "center">
+   <video controls id="Task1" class="vid">
+      <source src="./media/Task1.mp4" type="video/mp4">
+      Your browser does not support HTML5 video.
+   </video>
+   <video controls id="Task2" class="vid">
+      <source src="./media/Task2.mp4" type="video/mp4">
+      Your browser does not support HTML5 video.
+   </video>
+   <video controls id="Task3" class="vid">
+      <source src="./media/Task3.mp4" type="video/mp4">
+      Your browser does not support HTML5 video.
+   </video>
+   <video controls id="Task4" class="vid">
+      <source src="./media/Task4.mp4" type="video/mp4">
+      Your browser does not support HTML5 video.
+   </video>
+      <video controls id="Task5" class="vid">
+      <source src="./media/Task5.mp4" type="video/mp4">
+      Your browser does not support HTML5 video.
+   </video>
+   <div style="height:10px"></div>
+   <button id = "hideVid" class = "button shadow" onclick="hideVid()">Verberg video</button>
+</div>
+<div id = "center">
+<div id = "ggbApplet"></div>
+<div id = "separator"></div>
+<div id = "info">
+   <div id = "ggbApplet2"></div>
+   <div style = "height:150px"></div>
+   <div id = "greenDiv"><p id="feedbackG"><p></div>
+   <div id = "yellowDiv"><p id="feedbackY">
+                         <p id=hintClick> Klik <u onclick = "showHint()">hier</u> 
+                             om een hint over de strategie te krijgen
+                         <p id = "hint"></div>
+   <div id = "redDiv"><p id="feedbackR"><p></div>
+   <div id = "blueDiv"><p id="feedbackB"><p></div>
+</div>
+</div>
+</div>
+<div style="height:750px;width:500px;color: white;"></div>
+<div class = "footer" style = "height:200px"></div>
+
+</body>
+<script>
+
+var tskNR = 0
+var grpNR = 0
+var stndID = ""
+var hint = ""
+
+function setGroup(Group) {
+   stndID = $("#studentID").val();
+   grpNR = Group
+   if (stndID != "") {$("#main").show();   
+                      $("#G0").hide();
+                      $("#G1").hide();
+                      $("#studentID").hide();  
+                      $("#group").html("Groep: G" + grpNR);
+                      $("#showID").html("Naam: " + stndID);
+                      getTask()}
+   else {alert("Voer a.u.b eerst je ID in")};
+};
+
+
+function nextTask() {
+   if (tskNR < 4) {tskNR = tskNR + 1}
+   //ggbApplet.
+   myReset()
+   //getTask()
+   hideFB()
+   hideWork()
+}; 
+
+function previousTask() {
+   if (tskNR > 0) {tskNR = tskNR - 1}
+   //ggbApplet.
+   myReset()
+   //getTask()
+   hideFB()
+   hideWork()
+}; 
+
+
+function setTask(){
+   var task = $("#task").val();
+   ggbApplet.evalCommand("task:"+task);
+
+};
+
+function ggbOnInit(){
+   ggbApplet.registerObjectUpdateListener("updateTime","onClick")
+   ggbApplet.registerObjectUpdateListener("workedExample","getExample")
+   ggbApplet.registerObjectUpdateListener("inputBox","hideFB")
+   ggbApplet.registerObjectUpdateListener("orBox1","hideFB")
+   ggbApplet.registerObjectUpdateListener("orBox2","hideFB")
+   ggbApplet.registerObjectUpdateListener("dBox","hideFB")
+   ggbApplet.registerObjectClickListener("up","hideFB")
+   ggbApplet.registerObjectClickListener("reset","myReset")
+   ggbApplet.registerObjectClickListener("video","showVid")
+   ggbApplet2.registerObjectClickListener("hideWork", "hideWork")
+   getTask();
+};
+
+function rep(s) 
+   {const inv = String.fromCharCode(8292);
+    var t = s.replaceAll("+", "%2B")
+             .replaceAll("³","^3")
+             .replaceAll("²","^2")
+             .replaceAll("¹","")
+             .replaceAll(inv,"%3B");
+    return t}
+
+function onClick(input){
+   var steps = new Array();
+   var n = ggbApplet.getValue("state");
+   for (var i = 1; i <=n+1; i++ ){
+         ggbApplet.evalCommand("placeH=Element[textSeqT,"+ i+"]"+
+            "\n SetVisibleInView(placeH,1,false)");
+         var p = ggbApplet.getValueString("placeH")+"";
+         steps.unshift(p);
+      }
+
+   var stepsM = steps.map(rep)
+
+   function onSuccess(result) {
+      hideFB()
+      var checkNR = Number(result.equiv);
+      var fb = (result.feedback).replaceAll("*","⋅") 
+      var ht = (result.hint).replaceAll("*","⋅") 
+      hint = ht
+      function modCheck (c) {
+         //if (c == 4) {return 0}
+         if (c == 1 && grpNR == 0) {return 0}
+         if (c == 3 && grpNR == 0) {return 2} 
+         if (true) {return c}};
+      ggbApplet.setValue("chooseCheck",modCheck(checkNR))
+      if (grpNR == 1){
+         if (checkNR == 0 || checkNR == 4 || checkNR == 5) 
+            {$("#feedbackG").html(fb);
+             $("#greenDiv").show()};
+         if (checkNR == 1) 
+            {$("#feedbackY").html(fb);
+             $("#hint").html(ht);
+             $("#yellowDiv").show();
+             $("#hintClick").show()};
+         if (checkNR == 2) 
+            {$("#feedbackR").html(fb);
+             $("#redDiv").show()};
+         if (checkNR == 3) 
+            {$("#feedbackB").html(fb);
+             $("#blueDiv").show()};}            
+      else { 
+         var mgs0 = "Deze stap is wiskundig correct"
+         var msg2 = "Er is iets misgegaan in je berekening"
+         if (checkNR == 0 || checkNR == 1) 
+            {$("#feedbackG").html(mgs0);
+             $("#greenDiv").show()};
+         if (checkNR == 2 || checkNR == 3) 
+            {$("#feedbackR").html(msg2);
+             $("#redDiv").show()};
+         if (checkNR == 4 || checkNR == 5) 
+            {$("#feedbackB").html(fb);
+             $("#blueDiv").show()};} 
+     };
+
+   function onFailure(result) {
+      alert(JSON.stringify(result))
+     };
+
+   if (n > 0) {makeRequest(
+      { "service" : "diagnosis"
+      , "steps" : stepsM
+      }
+      , onSuccess, onFailure);}
+   hideWork()
+};
+
+function showHint() {
+   $("#hint").show();
+   $("#hintClick").hide();
+   function onSuccess(result){}
+   function onFailure (result) {alert(JSON.stringify(result))};
+   makeRequest(
+      { "service" : "hint"
+      , "hint" : hint
+      }
+      , onSuccess, onFailure);
+
+};
+
+function showVid() {
+   $("#movie").show();
+   $("#center").hide();
+   $("#navButtons").hide();
+   function onSuccess(result){}
+   function onFailure (result) {alert(JSON.stringify(result))};
+   makeRequest(
+      { "service" : "video"
+      , "video" : tskNR
+      }
+      , onSuccess, onFailure);
+   if (tskNR == 0) {$("#Task1").show();
+                    document.getElementById("Task1").play();}
+   if (tskNR == 1) {$("#Task2").show();
+                    document.getElementById("Task2").play();}
+   if (tskNR == 2) {$("#Task3").show();
+                    document.getElementById("Task3").play();}
+   if (tskNR == 3) {$("#Task4").show();
+                    document.getElementById("Task4").play();}
+   if (tskNR == 4) {$("#Task5").show();
+                    document.getElementById("Task5").play();}
+   if (true) {}
+}
+
+function hideVid(){
+   $("#center").show();
+   $("#navButtons").show();
+   $("#movie").hide();
+   $("#Task1").hide();
+   $("#Task2").hide();
+   $("#Task3").hide();
+   $("#Task4").hide();
+   $("#Task5").hide();
+   document.getElementById("Task1").pause();
+   document.getElementById("Task2").pause();
+   document.getElementById("Task3").pause();
+   document.getElementById("Task4").pause();
+   document.getElementById("Task5").pause();
+   }
+
+
+function up (x) {hideFB()}
+
+function myReset(x){
+   ggbApplet.reset() 
+   //ggbApplet2.reset()
+   hideFB()
+   hideWork()
+
+}
+
+
+function hideFB() {
+   $("#greenDiv").hide();
+   $("#yellowDiv").hide();
+   $("#redDiv").hide();
+   $("#blueDiv").hide();
+   $("#hint").hide();
+
+};
+
+function loadAll () {
+   hideFB();
+   applet.inject('ggbApplet');
+   applet2.inject('ggbApplet2');
+   hideVid()
+   $("#ggbApplet2").hide();
+   $("#main").hide();
+};
+
+function hideWork (input) {
+   ggbApplet.setValue ("workedExample",0)
+   $("#ggbApplet2").hide();};
+
+function getExample(input) {
+   
+   var getTask = ggbApplet.getValueString("taskT")+"";
+   var show = ggbApplet.getValue("workedExample");
+   var task = rep(getTask);
+   
+   function onSuccess(result) {
+      var wk = result.workedExample;
+      var n = wk.length; 
+      ggbApplet2.evalCommand("RunClickScript(Clear)")
+      for (var i = 1; i <=n; i++ )
+      {
+      var eq1 = (wk [i-1][0]).replaceAll("%2B","+")
+      var eq2 = (wk [i-1][1]).replaceAll("%2B","+")
+      var D   = (wk [i-1][2]).replaceAll("%2B","+")
+      ggbApplet2.evalCommand(
+         "eq1"+i+":"+eq1+"\n"+
+         "SetVisibleInView(eq1"+i+",1,false)\n"+
+         "eq2"+i+":"+eq2+"\n"+
+         "SetVisibleInView(eq2"+i+",1,false)\n"+
+         "D"+i+"(x)="+D+"\n"+
+         "SetVisibleInView(D"+i+",1,false)"
+         );   
+      };
+      hideFB()
+      $("#ggbApplet2").show();
+   };
+
+   function onFailure(result) {
+      alert(JSON.stringify(result))
+     };
+   if (show == 1){
+   makeRequest(
+      { "service" : "workedExample"
+      , "task" : task}
+      , onSuccess, onFailure);} else {$("#ggbApplet2").hide();}
+      
+};
+
+function getTask(input){
+   function onSuccess(result) {
+      var task = result.givenTask
+      ggbApplet.evalCommand("task:"+task);
+      };
+
+   function onFailure(result) {
+      alert(JSON.stringify(result))
+      };
+
+   makeRequest({ "service" : "getTask"
+               , "tskNR" : tskNR}
+               , onSuccess, onFailure);
+
+   var t = tskNR +1
+   var s = t +"/5" 
+   $("#current").html(s)
+};
+
+function makeRequest(request, onSuccess, onFailure) {
+      var date = new Date();
+      var id = {"date" : date, "tskNRid" : tskNR, "grpNR" : grpNR, "stndID" : stndID}
+      $.ajax({
+      cache: false,
+      url: "cgi-bin/mbt-server.cgi",
+      // url: "../cgi-bin/mbt-server.cgi",
+      data: "input=" + encodeURI(JSON.stringify({...request, ...id})),
+      success: onSuccess,
+      error: onFailure,
+      timeout: 100000
+   })
+}
+
+var parameters = {
+"id": "ggbApplet",
+"width":600,
+"height":440,
+"showMenuBar":false,
+"showAlgebraInput":false,
+"showToolBar":false,
+"showToolBarHelp":false,
+"showResetIcon":false,
+"enableLabelDrags":false,
+"enableShiftDragZoom":true,
+"enableRightClick":false,
+"errorDialogsActive":false,
+"useBrowserForJS":true,
+"preventFocus":false,
+"language":"en",
+// use this instead of ggbBase64 to load a material from GeoGebra Materials Platform
+// "material_id":12345,
+"material_id":"p94k8e9v"
+}
+
+var parameters2 = {
+"id": "ggbApplet2",
+"width":500,
+"height":440,
+"showMenuBar":false,
+"showAlgebraInput":false,
+"showToolBar":false,
+"showToolBarHelp":false,
+"showResetIcon":false,
+"enableLabelDrags":false,
+"enableShiftDragZoom":true,
+"enableRightClick":false,
+"errorDialogsActive":false,
+"useBrowserForJS":true,
+"preventFocus":false,
+"language":"en",
+// use this instead of ggbBase64 to load a material from GeoGebra Materials Platform
+// "material_id":12345,
+"material_id":"tfwyrvxh"
+}
+// is3D=is 3D applet using 3D view, AV=Algebra View, SV=Spreadsheet View, CV=CAS View, EV2=Graphics View 2, CP=Construction Protocol, PC=Probability Calculator, DA=Data Analysis, FI=Function Inspector, PV=Python, macro=Macro View
+var views = {'is3D': 0,'AV': 1,'SV': 0,'CV': 0,'EV2': 0,'CP': 0,'PC': 0,'DA': 0,'FI': 0,'PV': 0,'macro': 0};
+
+var applet = new GGBApplet(parameters,true);
+              
+    //  when used with Math Apps Bundle, uncomment this:
+    //  applet.setHTML5Codebase('GeoGebra/HTML5/5.0/web/');
+var applet2 = new GGBApplet(parameters2,true);
+              
+    //  when used with Math Apps Bundle, uncomment this:
+    //  applet2.setHTML5Codebase('GeoGebra/HTML5/5.0/web/');
+
+
+
+
+
+</script>
+
+</html>

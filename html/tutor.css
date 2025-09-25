@@ -1,0 +1,197 @@
+* {
+  box-sizing: border-box;
+}
+
+
+#info{float : left;
+         width: 400px}
+
+#ggbApplet{float : left}
+#separator{ float : left
+          ; width: 100px
+          ; height: 500px}
+#center{margin: auto;
+        width: 80%}
+
+#movie{
+  /*position: relative;*/
+  /*width: 670px;*/
+  margin: auto;
+}
+        
+#hideVid{
+  /*position: absolute;*/
+  /*right: 0px;*/
+}
+
+#bar{height: 600px}
+#upperBar{height: 300px}
+
+#greenDiv {
+  display: none;
+  background-color: #E5F3FD;
+  border-radius: 3px;
+  padding: 3px 15px;
+  box-shadow: 1px 2px 3px #969493;
+  border-style: solid;
+  border-color: black;
+  border-width: thin;
+}
+
+#yellowDiv {
+  display: none;
+  background-color: #E5F3FD;
+  border-radius: 3px;
+  padding: 3px 15px;
+  box-shadow: 1px 2px 3px #969493;
+  border-style: solid;
+  border-color: black;
+  border-width: thin;
+}
+
+#redDiv {
+  display: none;
+  background-color: #E5F3FD;
+  border-radius: 3px;
+  padding: 3px 15px;
+  box-shadow: 1px 2px 3px #969493;
+  border-style: solid;
+  border-color: black;
+  border-width: thin;
+}
+
+#blueDiv {
+  display: none;
+  background-color: #E5F3FD;
+  border-radius: 3px;
+  padding: 3px 15px;
+  box-shadow: 1px 2px 3px #969493;
+  border-style: solid;
+  border-color: black;
+  border-width: thin;
+}
+
+.fl {
+   float:left;
+}
+
+.hide {
+   display: none;
+}
+
+.sticky {
+  /* position: fixed; */
+  /* top:0; */
+  width: 100%;
+}
+
+.highz {
+  z-index: 3;
+}
+
+.lowz {
+  z-index: 1;
+}
+.header {
+  overflow: hidden;
+  background-color: #0096FF;
+  color: white;
+  padding: 5px 20px;
+  box-shadow: 1px 2px 3px #969493;
+}
+
+.footer {
+  overflow: hidden;
+  background-color: #0096FF;
+  color: white;
+  padding: 5px 20px;
+  box-shadow: -1px -2px 3px #969493;
+  -webkit-box-shadow: -1px -2px 3px #969493;
+  -moz-box-shadow: -1px -2px 3px #969493
+}
+
+.center {
+  margin: auto;
+  width: 500px;
+}
+
+
+
+@media screen and (max-width: 600px) {
+   .center {
+      margin: auto;
+      width: 99%;
+   }
+}
+
+.vid {
+  margin: auto;
+  width: 600px;
+}
+
+@media screen and (max-width: 600px) {
+   .vid {
+      margin: auto;
+      width: 99%;
+   }
+}
+
+.shadow {
+  box-shadow: 1px 2px 3px #969493;
+}
+
+.feedback {
+   background-color: #B6D0E2;
+   border-radius: 3px;
+   padding: 3px 15px;
+}
+
+.helpText {
+   float: right;
+   width: 95%;
+   background-color: #faefd9;
+   border-radius: 3px;
+   padding: 3px 15px;
+}
+
+
+.button {
+  background-color:#34a1eb;
+  border: solid 1px #6495ED;
+  color: white;
+  padding: 3px 32px;
+  text-align: left;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 3px 2px;
+  cursor: pointer;
+  border-radius: 3px 
+}
+
+.button:hover {
+  background-color:#6495ED;
+  border: solid 1px #34a1eb;
+  color: white;
+  padding: 3px 32px;
+  text-align: left;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 3px 2px;
+  cursor: pointer;
+  border-radius: 3px 
+}
+
+.container {
+  display: flex;
+  align-items: center;
+}
+
+.ppRound {
+  border-radius: 2px;
+  width: 50px;
+  height: 30px;
+  box-shadow: 1px 2px 3px #969493;
+};
+
