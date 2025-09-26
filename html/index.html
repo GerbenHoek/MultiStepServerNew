@@ -78,7 +78,7 @@
    <div id = "greenDiv"><p id="feedbackG"><p></div>
    <div id = "yellowDiv"><p id="feedbackY">
                          <p id=hintClick> Klik <u onclick = "showHint()">hier</u> 
-                             om een hint over de strategie te krijgen
+                             om een hint over de strategie te krijgen.
                          <p id = "hint"></div>
    <div id = "redDiv"><p id="feedbackR"><p></div>
    <div id = "blueDiv"><p id="feedbackB"><p></div>
@@ -198,8 +198,8 @@ function onClick(input){
             {$("#feedbackB").html(fb);
              $("#blueDiv").show()};}            
       else { 
-         var mgs0 = "Deze stap is wiskundig correct"
-         var msg2 = "Er is iets misgegaan in je berekening"
+         var mgs0 = "Deze stap is wiskundig correct."
+         var msg2 = "Er is iets misgegaan in je berekening."
          if (checkNR == 0 || checkNR == 1) 
             {$("#feedbackG").html(mgs0);
              $("#greenDiv").show()};

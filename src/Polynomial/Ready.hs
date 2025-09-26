@@ -38,12 +38,12 @@ ready (p:ps) = case or2list $ simplify' p of
       simpleRoot r = simpleNum r && CR.simplify r /= r
       simpleNum r  = isRat r || isInt r  
       simplify'    = mapToOr (mapEq simplify)
-      interMsg = "Voer nog een extra tussenstap in"
+      interMsg = "Voer nog een extra tussenstap in."
       rootMsg  = "Goed zo je bent er bijna, \
-                 \je kunt de wortels nog wegwerken"
+                 \je kunt de wortels nog wegwerken."
       numMsg   = "Goed zo je bent er bijna, \
-                 \je kunt nog vereenvoudigen tot een getal"
-      readyMsg = "Goed zo, de vergelijking is correct opgelost"
+                 \je kunt nog vereenvoudigen tot een getal."
+      readyMsg = "Goed zo, de vergelijking is correct opgelost."
       redirect a b
          | not $ interOK (p:ps) = (interMsg, 5)
          | simpleRoot a 
