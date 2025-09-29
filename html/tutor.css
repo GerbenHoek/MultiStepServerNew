@@ -4,14 +4,14 @@
 
 
 #info{float : left;
-         width: 400px}
+      width: 400px}
 
 #ggbApplet{float : left}
 #separator{ float : left
-          ; width: 100px
-          ; height: 500px}
+          ; width: 50px
+          ; height: 10px}
 #center{margin: auto;
-        width: 80%}
+        width: 1050px}
 
 #movie{
   /*position: relative;*/
