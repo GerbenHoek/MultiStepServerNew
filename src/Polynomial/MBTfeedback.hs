@@ -91,7 +91,8 @@ roundRoots =
 
 linSquareForgetRoot :: MBTmsg
 linSquareForgetRoot =
-   flatMessage [B.linSquareForgetRoot]
+   flatMessage [ B.linSquareForgetRoot
+               , B.removeSquareB]
       "Als je aan de ene kant van het =-teken \
       \de wortel neemt, moet je dat aan de andere kant ook doen."
 
@@ -134,7 +135,7 @@ getMBTFeedback mbt =
    of Nothing -> err 
       Just s' -> s'
    where
-      err = "Er is iets mis misgegaan in je berekening."
+      err = "Er is iets misgegaan in je berekening."
       msgs = [ workoutSquareB 
              , workoutSquareB5
              , squareB

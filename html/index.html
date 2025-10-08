@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+[<!DOCTYPE html>
 <html>
 <html>
 <title>Polly</title>
@@ -104,7 +104,7 @@ function setGroup(Group) {
                       $("#G1").hide();
                       $("#studentID").hide();  
                       $("#group").html("Groep: G" + grpNR);
-                      $("#showID").html("Naam: " + stndID);
+                      $("#showID").html("ID: " + stndID);
                       getTask()}
    else {alert("Voer a.u.b eerst je ID in")};
 };
@@ -230,7 +230,7 @@ function showHint() {
    function onFailure (result) {alert(JSON.stringify(result))};
    makeRequest(
       { "service" : "hint"
-      , "hint" : hint
+      , "hint" : hint.replaceAll("⋅","*") 
       }
       , onSuccess, onFailure);
 

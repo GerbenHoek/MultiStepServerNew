@@ -106,7 +106,7 @@ listDiagnosis' (a:t:ts) =
          Left mbt -> (getMBTFeedback mbt, "", 2)
          Right pt -> 
             case unSat pt of 
-               [] -> ("Dit is een verwachte strategie stap", "", 0)
+               [] -> ("Dit is een verwachte strategie stap.", "", 0)
                un -> ( getPTFeedback (sat pt) un
                      , getPTHint $ concat $ traceStrategy t, 1)
 

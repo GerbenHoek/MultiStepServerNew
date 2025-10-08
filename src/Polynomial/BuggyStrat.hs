@@ -61,7 +61,8 @@ linSquareStratB =
                     .*. option divisionB)
                     .*. (R linSquare
                          <|> R linSquareForgetRoot 
-                         <|> R linSquareForgetRootConst)
+                         <|> R linSquareForgetRootConst
+                         <|> focus e2s (R removeSquareB))
      .*. option approximateRootsStat
 
 nillPruductStratB :: Strat (Focus (PQS ComRoot))

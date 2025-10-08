@@ -174,6 +174,13 @@ squareAroot =
              | otherwise -> [N (a^2)]
          _ -> []    
 
+removeSquareB :: (Num a, Ord a) => Rule (Focus (PEX a))
+removeSquareB = lift2focus $ rPEQ $ buggyRule "A^2 = c -> A = c^2" f 
+   where 
+      f p = case p of 
+          a:^:2 :=: c -> [a :=: c.^.2]
+          _ -> []
+
 linSquareForgetRoot :: Rule (Focus (PEQ ComRoot))
 linSquareForgetRoot = 
    lift2focus $ rPQS $ buggyRule "A^2 = b -> A = b, A = - b" f 
